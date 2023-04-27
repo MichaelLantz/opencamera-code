@@ -2435,8 +2435,9 @@ public class MyApplicationInterface extends BasicApplicationInterface {
                 try {
                     retriever.release();
                 }
-                catch(RuntimeException ex) {
+                catch(Exception ex) {
                     // ignore
+                    ex.printStackTrace();
                 }
                 try {
                     if( pfd_saf != null ) {
