@@ -3015,6 +3015,13 @@ public class MyApplicationInterface extends BasicApplicationInterface {
     }
 
     @Override
+    public void requestInternetPermission() {
+        if( MyDebug.LOG )
+            Log.d(TAG, "requestInternetPermission");
+        main_activity.getPermissionHandler().requestInternetPermission();
+    }
+
+    @Override
     public boolean needsStoragePermission() {
         if( MyDebug.LOG )
             Log.d(TAG, "needsStoragePermission");
