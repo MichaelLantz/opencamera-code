@@ -231,6 +231,8 @@ public class MainActivity extends AppCompatActivity {
     private long cached_display_rotation_time_ms;
     private int cached_display_rotation;
 
+    public String computer_vision_result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         long debug_time = 0;
@@ -3837,6 +3839,43 @@ public class MainActivity extends AppCompatActivity {
         ImageButton galleryButton = this.findViewById(R.id.gallery);
         galleryButton.setImageBitmap(thumbnail);
         gallery_bitmap = thumbnail;
+
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+            if( MyDebug.LOG )
+                Log.e(TAG, "need to figure out alerting for pre-Android M!");
+            //Have to do this here since this isn't a thread
+            try {
+                if (computer_vision_result != null) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                    alertDialog.setTitle("Computer Vision Result");
+                    alertDialog.setMessage(computer_vision_result);
+                    alertDialog.setPositiveButton(android.R.string.ok, null);
+                            /*alertDialog.setNegativeButton(R.string.donate, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if( MyDebug.LOG )
+                                        Log.d(TAG, "donate");
+                                    // if we change this, remember that any page linked to must abide by Google Play developer policies!
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(MainActivity.DonateLink));
+                                    startActivity(browserIntent);
+                                }
+                            });*/
+                    alertDialog.show();
+                    /*
+                    new AlertDialog.Builder(this)
+                            .setTitle("Computer Vision Result")
+                            .setMessage(computer_vision_result + " detected")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.ok, null)
+                            .show();
+                    */
+                    computer_vision_result = null;
+                }
+            }
+            catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }
     }
 
     /** Updates the gallery icon by searching for the most recent photo.
@@ -4064,6 +4103,7 @@ public class MainActivity extends AppCompatActivity {
                 galleryButton.setColorFilter(null);
             }
         });
+
     }
 
     /** Called when the number of images being saved in ImageSaver changes (or otherwise something

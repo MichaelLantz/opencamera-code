@@ -308,6 +308,7 @@
     <string name="permission_rationale_record_audio">Microphone permission is required to record video with audio, as well as use the \"Audio control\" options</string>
     <string name="permission_rationale_location">Location permission is required for geotagging (storing location data in
         photos and videos, including stamp and subtitles options). Location permission is also required (at least for Android 11 and earlier) for connecting to Bluetooth LE remote control devices.</string>
+    <string name="permission_rationale_internet">Internet permission is required to enable Appwrite, MindsDB and Hugging Face Integration</string>
 
     <string name="preference_category_photo_debugging">Debugging options</string>
     <string name="preference_category_video_debugging">Debugging options</string>

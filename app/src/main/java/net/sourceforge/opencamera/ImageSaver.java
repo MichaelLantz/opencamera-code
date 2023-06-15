@@ -2721,6 +2721,7 @@ public class ImageSaver extends Thread {
                             main_activity.getContentResolver().update(saveUri, contentValues, null, null);
                         }
 
+
                         // no need to broadcast when using mediastore method
                         if( !request.image_capture_intent ) {
                             if( MyDebug.LOG )
@@ -2740,6 +2741,29 @@ public class ImageSaver extends Thread {
                     }
 
                     main_activity.test_last_saved_imageuri = saveUri;
+
+                    if (request.type == Request.Type.JPEG) {
+                        String hfToken = "hf_...";
+                        String userName = "";
+                        String datasetName = "";
+                        main_activity.getApplicationInterface().requestInternetPermission();
+                        ComputerVisionTask computerVisionTask = new ComputerVisionTask(main_activity, picFile, datasetName, userName, hfToken);
+                        try {
+                            //Override image file using content URI (Android 10+)
+                            if (saveUri != null && picFile == null) {
+                                computerVisionTask.updateImageFile(saveUri);
+                            }
+                            //Upload image and use Computer Vision
+                            main_activity.computer_vision_result = computerVisionTask.uploadImage() + " detected";
+                        }
+                        catch (Exception e) {
+                            if( MyDebug.LOG ) {
+                                Log.d(TAG, "Save URI: " + saveUri.getPath());
+                            }
+                            e.printStackTrace();
+                        }
+
+                    }
                 }
             }
         }
